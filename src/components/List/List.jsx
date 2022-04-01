@@ -5,10 +5,9 @@ import PlaceDetails from '../PlaceDetails/PlaceDetails'
 
 import useStyles from './styles'; 
 
-const List = ({ place, childClicked }) => {
+const List = ({ place, childClicked, isLoading, type, setType, rating, setRating }) => {
     const classes = useStyles();
-    const {type, setType} = useState('restaurants');
-    const {rating, setRating} = useState('')
+    
     const [elRefs, setElRefs] = useState([]);
 
 useEffect(() => {
@@ -22,6 +21,11 @@ useEffect(() => {
     return(
         <div className={classes.container}>
             <Typography variant="h4"> Restraunts, Hotels and Attractions around you</Typography>
+            {isLoading ? (
+                <div className={classes.loading}>
+                    <CircularProgress size="5rem" />
+            ) ? (
+                <>
             <FormControl className={classes.formcontrol}>
                 <InputLabel>Type</InputLabel>
                 <Select value={type} onChange={(e) => setType(e.target.value)}>
@@ -50,6 +54,8 @@ useEffect(() => {
 
                 ))}
                 </Grid>
+                </>
+            )}
             
         </div> 
         );
