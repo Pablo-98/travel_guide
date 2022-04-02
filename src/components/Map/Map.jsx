@@ -6,8 +6,10 @@ import Rating from '@material-ui/lab/Rating';
 
 import useStyles from './styles';
 
+import mapStyles from './mapStyles'
 
-const Map = (coordinates, setCoordinates, setBounds, place, setChildClicked ) => {
+
+const Map = (coordinates, setCoordinates, setBounds, place, setChildClicked, weatherData) => {
     const classes = useStyles();
     const isDesktop = useMediaQuery('(min-width:600px)');
 
@@ -15,12 +17,12 @@ const Map = (coordinates, setCoordinates, setBounds, place, setChildClicked ) =>
     return(
         <div className={classes.mapContainer}>
             <GoogleMapReact
-            bootstrapURLKeys={{ key: 'AIzaSyDZJGP4V-SNeP5zQarQJfMlXUVneMcBqzU' }}
+            bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
             defaultCenter={coordinates}
             center={coordinates}
             defaultZoom={14}
             margin={[50, 50, 50, 50,]}
-            options={''}
+            options={{ disableDefaultUI: true, zoomControl: true, styles: mapStyles }}
             onChange={(e) => {
                 setCoordinates({lat: e.center.lat, lng: e.center.lng});
                 setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw});
@@ -52,6 +54,13 @@ const Map = (coordinates, setCoordinates, setBounds, place, setChildClicked ) =>
                                 </Paper>
                             )
                         }
+
+                    </div>
+                ))}
+
+                {weatherData?.list?.map((data, i) => (
+                    <div key={i} lat={data.coord.lat} lng={data.coord.lon}>
+                        <img  src={`https://openweathermap.org/img/w/${data.weather[0].icon}.png`} height={100}/>
 
                     </div>
                 ))}
