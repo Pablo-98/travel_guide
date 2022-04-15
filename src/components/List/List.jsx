@@ -5,26 +5,27 @@ import PlaceDetails from '../PlaceDetails/PlaceDetails'
 
 import useStyles from './styles'; 
 
-const List = ({ place, childClicked, isLoading, type, setType, rating, setRating }) => {
+const List = ({ places, childClicked, isLoading, type, setType, rating, setRating }) => {
     const classes = useStyles();
     
     const [elRefs, setElRefs] = useState([]);
 
 useEffect(() => {
-    const refs = Array(places.length).fill().map((_, i) =>refs[i] || createRef()));
+    setElRefs((refs) => Array(places.length).fill().map((_, i) =>refs[i] || createRef()));
 
-    setElRefs(refs);
+    
 
-}, [place]);
+}, [places]);
    
 
     return(
         <div className={classes.container}>
-            <Typography variant="h4"> Restraunts, Hotels and Attractions around you</Typography>
+            <Typography variant="h4"> Food and dining around you</Typography>
             {isLoading ? (
                 <div className={classes.loading}>
                     <CircularProgress size="5rem" />
-            ) ? (
+                    </div>
+            ) : (
                 <>
             <FormControl className={classes.formcontrol}>
                 <InputLabel>Type</InputLabel>
@@ -59,6 +60,6 @@ useEffect(() => {
             
         </div> 
         );
-}
+};
 
 export default List;

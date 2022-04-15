@@ -6,30 +6,30 @@ import Rating from '@material-ui/lab/Rating';
 
 import useStyles from './styles'; 
 
-const PlaceDetails = ( {place, selected, refProp } ) => {
+const PlaceDetails = ( {place, selected, refProp }) => {
+    if(selected) refProp?.current?.scrollIntoView({behavior: "smooth", block: "start" });
     const classes = useStyles();
 
-    if(selected) refProp?.current?.scrollIntoView({behavior: "smooth", block: "start" })
 
     return(
         <Card elevation={6}>
             <CardMedia
-            style={{height: 350}}
+            style={{ height: 350}}
             image={place.photo ? place.photo.images.large.url : 'https://www.rlare.com/wp-content/uploads/2019/12/Inside-1-1.jpg' } 
             title={place.name}
             />
             <CardContent>
                 <Typography gutterBottom variant="h5">{place.name}</Typography>
-                <Box display="flex" justify-content="space-between">
+                <Box display="flex" justify-content="space-between" my={2}>
                     <Rating name="read-only" value= {Number(place.rating)} readOnly />
-                    <Typography component="legend">{place.num_reviews} out of: {place.num_reviews > 1 && 's'}</Typography>
+                    <Typography component="legend">{place.num_reviews} review {place.num_reviews > 1 && 's'}</Typography>
                 </Box>
                 <Box display="flex" justify-content="space-between">
                     <Typography variant="subtitle1">Price</Typography>
                     <Typography gutterBottom variant="subtitle1">{place.price._level}</Typography>
                 </Box>
                 <Box display="flex" justify-content="space-between">
-                    <Typography variant="subtitle1">Ranking</Typography>
+                    <Typography component="legend">Ranking</Typography>
                     <Typography gutterBottom variant="subtitle1">{place.ranking}</Typography>
                 </Box>
                 {place?.awards?.map((award) => (
@@ -43,25 +43,26 @@ const PlaceDetails = ( {place, selected, refProp } ) => {
                     <Chip key={name} size="small" label={name} className={classes.chip} />
 
                 ))}
-                {place?.address && (
-                    <Typography gutterBottom variant="subtitle2" color="textSecondary"  className={classes.subtitle}>
+                {place.address && (
+                    <Typography gutterBottom variant="body2" color="textSecondary"  className={classes.subtitle}>
                         <LocationOnIcon /> {place.address}
                     </Typography>
                 )}
-                {place?.phone && (
-                    <Typography gutterBottom variant="subtitle2" color="textSecondary"  className={classes.spacing}>
+                {place.phone && (
+                    <Typography gutterBottom variant="body2" color="textSecondary"  className={classes.spacing}>
                         <PhoneIcon /> {place.phone}
                     </Typography>
                 )}
+                </CardContent>
                 <CardActions>
                     <Button size="small" color="primary" onClick={() => window.open(place.web.url, '_blank')}>
                         Trip Advisor
                     </Button>
                     <Button size="small" color="primary" onClick={() => window.open(place.website, '_blank')}>
-                        Trip Advisor
+                        Website
                     </Button>
                 </CardActions>
-            </CardContent>
+            
             </Card>
     );
 }
