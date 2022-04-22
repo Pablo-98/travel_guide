@@ -9,7 +9,7 @@ import useStyles from './styles';
 import mapStyles from './mapStyles'
 
 
-const Map = ({coords, setCoords, setBounds, places, setChildClicked, weatherData}) => {
+const Map = ({coords, setCoordinates, setBounds, places, setChildClicked, weatherData}) => {
     const classes = useStyles();
     const matches = useMediaQuery('(min-width:600px)');
 
@@ -25,7 +25,7 @@ const Map = ({coords, setCoords, setBounds, places, setChildClicked, weatherData
                 margin={[50, 50, 50, 50,]}
                 options={{ disableDefaultUI: true, zoomControl: true, styles: mapStyles }}
                 onChange={(e) => {
-                    setCoords({ lat: e.center.lat, lng: e.center.lng });
+                    setCoordinates({ lat: e.center.lat, lng: e.center.lng });
                     setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
                 }}
 

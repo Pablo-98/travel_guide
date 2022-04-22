@@ -13,7 +13,8 @@ const App = () => {
     const [type, setType] = useState('restaurants');
     const [rating, setRating] = useState('');
   
-    const [coords, setCoords] = useState({});
+    const [coords, setCoords] = useState();
+
     const [bounds, setBounds] = useState(null);
   
     const [weatherData, setWeatherData] = useState([]);
@@ -24,6 +25,9 @@ const App = () => {
     const [childClicked, setChildClicked] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
+    console.log(coords);
+
+
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(({ coords: {latitude, longitude} }) => {
             setCoords({ lat: latitude, lng: longitude});
@@ -31,11 +35,12 @@ const App = () => {
         });
 
     }, []);
+    
 
     useEffect(() => {
         const filtered = places.filter((place) => Number(place.rating) > rating);
 
-        setFilteredPlaces(filteredPlaces);
+        setFilteredPlaces(filtered);
     }, [rating]);
      
     useEffect(() => {
@@ -54,7 +59,7 @@ const App = () => {
         });
     }
 
-    },[bounds, type]);
+    },[bounds, type, coords]);
 
     const onLoad = (autoC) => setAutocomplete(autoC);
     
@@ -62,7 +67,7 @@ const App = () => {
         const lat = autocomplete.getPlace().geometry.location.lat();
         const lng = autocomplete.getPlace().geometry.location.lng();
 
-        setCoords({ lat, lng});
+        setCoords({ lat, lng });
     };
 
 
@@ -82,17 +87,19 @@ const App = () => {
              rating={rating}
              
              />
+             
+
 
          </Grid>
          <Grid item xs={12} md={8} style={{display: 'flex', justfiyContent: 'center', alignItems: 'center' }}>
-             <Map 
+             {coords && <Map 
              setChildClicked={setChildClicked}
              setCoordinates={setCoords}
              setBounds={setBounds}
-             coordinates={coords}
-             place={filteredPlaces?.length ? filteredPlaces : places}
+             coords={coords}
+             places={filteredPlaces?.length ? filteredPlaces : places}
              weatherData={weatherData}
-             />
+             />}
              
          </Grid>
 
